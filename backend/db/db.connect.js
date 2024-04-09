@@ -1,12 +1,24 @@
 import mongoose from "mongoose";
+import dotenv from "dotenv";
 
 
-const URI = "mongodb+srv://devdylancrowder:dilan_07@cluster0.pbvemm9.mongodb.net/inmobiliaria"
+// Cargar las variables de entorno desde el archivo .env
+dotenv.config({ path: "./.env.db" });
+
+// Obtener la URI de conexión desde las variables de entorno
+const URI = process.env.URI;
+
+// Función para inicializar la conexión a MongoDB
 export const initMongo = async () => {
     try {
-        mongoose.connect(URI);
-        console.log("base de datos conectada correctamente");
-    } catch (erro) {
-        console.log("error al intentar conectarse a la db");
+        // Conectar a la base de datos utilizando la URI
+        await mongoose.connect(URI, {
+            useNewUrlParser: true,
+            useUnifiedTopology: true
+        });
+        console.log("Base de datos conectada correctamente");
+    } catch (error) {
+        // Manejar errores de conexión
+        console.error("Error al intentar conectarse a la base de datos:", error);
     }
 };
